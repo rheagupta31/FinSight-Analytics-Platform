@@ -1,0 +1,296 @@
+
+<h2 class="sr-only">Fintech analytics dashboard showing KPIs, credit scores, monthly cash flow, spending categories, customer segmentation, loan health, and savings projections.</h2>
+
+<style>
+  .dash { font-family: var(--font-sans); padding: 0 0 2rem; }
+  .section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-secondary); margin: 0 0 10px; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
+  .kpi { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 14px 16px; }
+  .kpi-label { font-size: 12px; color: var(--color-text-secondary); margin: 0 0 4px; }
+  .kpi-value { font-size: 26px; font-weight: 500; color: var(--color-text-primary); margin: 0; line-height: 1.1; }
+  .kpi-sub { font-size: 12px; color: var(--color-text-secondary); margin: 4px 0 0; }
+  .kpi-up { color: #3B6D11; }
+  .kpi-down { color: #A32D2D; }
+  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .charts-row-3 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px 18px; }
+  .card-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 14px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; font-size: 11px; color: var(--color-text-secondary); }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+  .seg-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; }
+  .seg-bar-bg { flex: 1; height: 6px; background: var(--color-background-secondary); border-radius: 99px; overflow: hidden; }
+  .seg-bar-fill { height: 100%; border-radius: 99px; }
+  .seg-name { width: 72px; color: var(--color-text-secondary); font-size: 11px; }
+  .seg-count { width: 24px; text-align: right; color: var(--color-text-primary); font-weight: 500; font-size: 12px; }
+  .loan-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 12px; }
+  .loan-row:last-child { border-bottom: none; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: var(--border-radius-md); font-size: 11px; font-weight: 500; }
+</style>
+
+<div class="dash">
+  <p class="section-label">Fintech SQL project — analytics overview</p>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <p class="kpi-label">Total customers</p>
+      <p class="kpi-value">55</p>
+      <p class="kpi-sub">112 accounts</p>
+    </div>
+    <div class="kpi">
+      <p class="kpi-label">Avg credit score</p>
+      <p class="kpi-value">707</p>
+      <p class="kpi-sub" style="color:#3B6D11;">Good range</p>
+    </div>
+    <div class="kpi">
+      <p class="kpi-label">Total transactions</p>
+      <p class="kpi-value">878</p>
+      <p class="kpi-sub">6-month history</p>
+    </div>
+    <div class="kpi">
+      <p class="kpi-label">Fraud flagged</p>
+      <p class="kpi-value">1</p>
+      <p class="kpi-sub" style="color:#3B6D11;">98.2% clean</p>
+    </div>
+  </div>
+
+  <div class="charts-row-3">
+    <div class="card">
+      <p class="card-title">Monthly cash flow — all customers</p>
+      <div class="legend">
+        <span><span class="dot" style="background:#378ADD;"></span>Income</span>
+        <span><span class="dot" style="background:#E24B4A; border-radius:2px; border: 1.5px dashed #E24B4A; background: transparent;"></span>Expenses</span>
+      </div>
+      <div style="position:relative; width:100%; height:200px;">
+        <canvas id="cashflowChart" role="img" aria-label="Line chart of monthly income vs expenses from Dec 2024 to May 2026. Income ranges from $19k to $120k; expenses closely track income.">Monthly income and expenses over time across all customers.</canvas>
+      </div>
+    </div>
+    <div class="card">
+      <p class="card-title">Credit score distribution</p>
+      <div style="position:relative; width:100%; height:200px;">
+        <canvas id="scoreDistChart" role="img" aria-label="Horizontal bar chart of credit score bands. Good (670-739) has 30 customers, Very Good 16, Fair 8, Poor 1.">Credit score band distribution across 55 customers.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="card">
+      <p class="card-title">Top 8 spending categories</p>
+      <div style="position:relative; width:100%; height:220px;">
+        <canvas id="catChart" role="img" aria-label="Bar chart of total spending by category. Utilities leads at $119k, followed by Healthcare $118k, Groceries $100k.">Spending breakdown by category across all customers.</canvas>
+      </div>
+    </div>
+    <div class="card">
+      <p class="card-title">12-month savings projection (3.5% APR)</p>
+      <div class="legend">
+        <span><span class="dot" style="background:#378ADD;"></span>Alice ($12k)</span>
+        <span><span class="dot" style="background:#1D9E75;"></span>David ($85k)</span>
+        <span><span class="dot" style="background:#BA7517;"></span>Carol ($500)</span>
+      </div>
+      <div style="position:relative; width:100%; height:190px;">
+        <canvas id="savingsChart" role="img" aria-label="Line chart showing 12-month compound interest savings projections. David grows from $85k to ~$88k; Alice from $12k to ~$12.4k; Carol stays near $500.">Compound interest projections for three customers over 12 months.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="card">
+      <p class="card-title">Customer segmentation</p>
+      <div style="margin-top: 6px;">
+        <div class="seg-row">
+          <span class="seg-name">At risk</span>
+          <div class="seg-bar-bg"><div class="seg-bar-fill" style="width:80%; background:#BA7517;"></div></div>
+          <span class="seg-count">44</span>
+        </div>
+        <div class="seg-row">
+          <span class="seg-name">Stable</span>
+          <div class="seg-bar-bg"><div class="seg-bar-fill" style="width:11%; background:#378ADD;"></div></div>
+          <span class="seg-count">6</span>
+        </div>
+        <div class="seg-row">
+          <span class="seg-name">Churned</span>
+          <div class="seg-bar-bg"><div class="seg-bar-fill" style="width:9%; background:#E24B4A;"></div></div>
+          <span class="seg-count">5</span>
+        </div>
+      </div>
+      <div style="margin-top: 16px; padding-top: 14px; border-top: 0.5px solid var(--color-border-tertiary);">
+        <p class="card-title" style="margin-bottom: 10px;">Loan payment health</p>
+        <div class="loan-row">
+          <span style="color: var(--color-text-secondary);">On-time paid</span>
+          <span><span class="badge" style="background:#EAF3DE; color:#27500A;">111 payments</span></span>
+        </div>
+        <div class="loan-row">
+          <span style="color: var(--color-text-secondary);">Overdue</span>
+          <span><span class="badge" style="background:#FCEBEB; color:#791F1F;">9 payments</span></span>
+        </div>
+        <div class="loan-row">
+          <span style="color: var(--color-text-secondary);">Partial</span>
+          <span><span class="badge" style="background:#FAEEDA; color:#633806;">6 payments</span></span>
+        </div>
+        <div style="margin-top: 10px; position: relative; width:100%; height: 8px; background: var(--color-background-secondary); border-radius: 99px; overflow: hidden;">
+          <div style="position:absolute; left:0; top:0; height:100%; width:87.4%; background:#639922; border-radius:99px;"></div>
+          <div style="position:absolute; left:87.4%; top:0; height:100%; width:4.7%; background:#EF9F27;"></div>
+          <div style="position:absolute; left:92.1%; top:0; height:100%; width:7.9%; background:#E24B4A;"></div>
+        </div>
+        <p style="font-size:11px; color: var(--color-text-secondary); margin: 6px 0 0;">87.4% paid on time · 4.7% partial · 7.9% overdue</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Credit score factors — Bob Martinez (678)</p>
+      <div style="position:relative; width:100%; height:220px;">
+        <canvas id="radarChart" role="img" aria-label="Radar chart of Bob Martinez credit score factors. Utilization 85, Age 85, Mix 80, Activity 50, Payment History 50.">Bob Martinez credit score factor breakdown across 5 dimensions.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom: 0;">
+    <p class="card-title">Net worth — top 6 customers</p>
+    <div style="position:relative; width:100%; height:160px;">
+      <canvas id="networthChart" role="img" aria-label="Stacked bar chart of top 6 customers by net worth. David Lee leads with $107k assets. Michael Gray and Adam Davis have significant liabilities.">Top 6 customers by assets and liabilities.</canvas>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+const textColor = isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.45)';
+const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
+
+const baseOpts = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: { legend: { display: false }, tooltip: { callbacks: {} } },
+  scales: {
+    x: { ticks: { color: textColor, font: { size: 11 } }, grid: { color: gridColor } },
+    y: { ticks: { color: textColor, font: { size: 11 } }, grid: { color: gridColor } }
+  }
+};
+
+const fmtK = v => '$' + (v >= 1000 ? (v/1000).toFixed(0) + 'k' : v);
+
+new Chart(document.getElementById('cashflowChart'), {
+  type: 'line',
+  data: {
+    labels: ['Dec 24','Jan 26','Feb 26','Mar 26','Apr 26','May 26'],
+    datasets: [
+      { label: 'Income', data: [94249, 116631, 78179, 91731, 120270, 81767],
+        borderColor: '#378ADD', backgroundColor: 'rgba(55,138,221,0.08)',
+        borderWidth: 2, pointRadius: 3, fill: true, tension: 0.35 },
+      { label: 'Expenses', data: [143583, 132046, 163806, 132722, 166020, 111415],
+        borderColor: '#E24B4A', backgroundColor: 'transparent',
+        borderWidth: 2, pointRadius: 3, borderDash: [5,3], fill: false, tension: 0.35 }
+    ]
+  },
+  options: { ...baseOpts,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: textColor, font: { size: 10 }, maxRotation: 0 }, grid: { color: gridColor } },
+      y: { ticks: { color: textColor, font: { size: 10 }, callback: v => fmtK(v) }, grid: { color: gridColor } }
+    }
+  }
+});
+
+new Chart(document.getElementById('scoreDistChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Poor\n300–579','Fair\n580–669','Good\n670–739','Very Good\n740–799'],
+    datasets: [{ data: [1, 8, 30, 16],
+      backgroundColor: ['#E24B4A','#EF9F27','#378ADD','#1D9E75'],
+      borderWidth: 0, borderRadius: 4 }]
+  },
+  options: { ...baseOpts, indexAxis: 'y',
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw} customers` } } },
+    scales: {
+      x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor } },
+      y: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } }
+    }
+  }
+});
+
+new Chart(document.getElementById('catChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Utilities','Healthcare','Groceries','Shopping','Restaurants','Rent','Travel','Entertainment'],
+    datasets: [{ data: [119635, 118847, 100687, 100341, 99893, 99417, 81856, 79545],
+      backgroundColor: ['#185FA5','#185FA5','#185FA5','#378ADD','#378ADD','#378ADD','#85B7EB','#85B7EB'],
+      borderWidth: 0, borderRadius: 3 }]
+  },
+  options: { ...baseOpts,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' $' + ctx.raw.toLocaleString() } } },
+    scales: {
+      x: { ticks: { color: textColor, font: { size: 10 }, maxRotation: 35, autoSkip: false }, grid: { display: false } },
+      y: { ticks: { color: textColor, font: { size: 10 }, callback: v => fmtK(v) }, grid: { color: gridColor } }
+    }
+  }
+});
+
+const months = [1,2,3,4,5,6,7,8,9,10,11,12];
+const compound = (p, n) => months.map(m => Math.round(p * Math.pow(1 + 3.5/100/12, m)));
+new Chart(document.getElementById('savingsChart'), {
+  type: 'line',
+  data: {
+    labels: months.map(m => 'M' + m),
+    datasets: [
+      { label: 'David ($85k)', data: compound(85000), borderColor: '#1D9E75', backgroundColor: 'rgba(29,158,117,0.07)', borderWidth: 2, pointRadius: 0, fill: true, tension: 0.3 },
+      { label: 'Alice ($12k)', data: compound(12000), borderColor: '#378ADD', backgroundColor: 'rgba(55,138,221,0.07)', borderWidth: 2, pointRadius: 0, fill: true, tension: 0.3 },
+      { label: 'Carol ($500)', data: compound(500),  borderColor: '#BA7517', backgroundColor: 'rgba(186,117,23,0.07)',  borderWidth: 2, pointRadius: 0, fill: true, tension: 0.3 }
+    ]
+  },
+  options: { ...baseOpts,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor } },
+      y: { ticks: { color: textColor, font: { size: 10 }, callback: v => fmtK(v) }, grid: { color: gridColor } }
+    }
+  }
+});
+
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Payment history','Utilization','Account age','Credit mix','Activity'],
+    datasets: [{
+      label: 'Bob Martinez',
+      data: [50, 85, 85, 80, 50],
+      borderColor: '#534AB7',
+      backgroundColor: 'rgba(83,74,183,0.15)',
+      borderWidth: 2,
+      pointBackgroundColor: '#534AB7',
+      pointRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      r: {
+        min: 0, max: 100,
+        ticks: { stepSize: 25, color: textColor, font: { size: 10 }, backdropColor: 'transparent' },
+        grid: { color: gridColor },
+        angleLines: { color: gridColor },
+        pointLabels: { color: textColor, font: { size: 10 } }
+      }
+    }
+  }
+});
+
+new Chart(document.getElementById('networthChart'), {
+  type: 'bar',
+  data: {
+    labels: ['David Lee','M. Evans','Dana Lewis','M. Gray','Adam Davis','Leah Kelly'],
+    datasets: [
+      { label: 'Assets',      data: [107000, 86066, 85884, 82580, 79604, 79241], backgroundColor: '#1D9E75', borderRadius: 3, borderWidth: 0 },
+      { label: 'Liabilities', data: [0, 568, 1098, 46587, 49836, 7174],         backgroundColor: '#E24B4A', borderRadius: 3, borderWidth: 0 }
+    ]
+  },
+  options: { ...baseOpts,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.raw.toLocaleString()}` } } },
+    scales: {
+      x: { stacked: false, ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } },
+      y: { ticks: { color: textColor, font: { size: 10 }, callback: v => fmtK(v) }, grid: { color: gridColor } }
+    }
+  }
+});
+</script>
