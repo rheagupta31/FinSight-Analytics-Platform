@@ -16,6 +16,14 @@ FinSight Analytics Platform models the core data infrastructure of a real financ
 
 ---
 
+## Live Demo
+
+View Interactive Dashboard →
+
+Hosted on GitHub Pages — no installation required. Explore credit scores, fraud flags, cash flow trends, and customer segmentation directly in your browser.
+
+---
+
 ## Features
 
 - **Double-entry transaction ledger** — normalized schema modeling real bank account structures across CHECKING, SAVINGS, CREDIT, and LOAN account types
