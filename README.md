@@ -18,8 +18,8 @@ FinSight Analytics Platform models the core data infrastructure of a real financ
 
 ## Live Demo
 
-View Interactive Dashboard →
-
+**[View Interactive Dashboard →](https://rheagupta31.github.io/FinSight-Analytics-Platform/fintech_analytics_dashboard.html)**
+ 
 Hosted on GitHub Pages — no installation required. Explore credit scores, fraud flags, cash flow trends, and customer segmentation directly in your browser.
 
 ---
